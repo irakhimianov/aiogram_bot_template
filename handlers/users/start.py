@@ -1,10 +1,9 @@
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandStart
-from loader import dp, bot
+from loader import dp
 
 
 @dp.message_handler(CommandStart())
 async def cmd_start(message: types.Message):
     # Command '/start' handler
-    await bot.send_message(text='Template start message'
-                           chat_id=message.from_user.id)
+    message.answer(text='Template start message')
