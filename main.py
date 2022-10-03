@@ -20,7 +20,6 @@ async def on_startup():
 
     # Notify admin that the bot has started
     await on_startup_notify(dp)
-
     await dp.skip_updates()
     await dp.start_polling()
 
