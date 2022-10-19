@@ -6,4 +6,4 @@ from aiogram.dispatcher.filters.builtin import CommandHelp
 @dp.message_handler(CommandHelp())
 async def cmd_help(message: types.Message):
     # Command '/help' handler
-    message.answer(text='Template help message')
+    await message.answer(text='Template help message')
