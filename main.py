@@ -1,31 +1,28 @@
 import asyncio
 import logging
-from loader import dp, bot
-from utils import on_startup_notify, set_default_commands
-from middlewares import *
+from aiogram.contrib.middlewares.logging import LoggingMiddleware
+
+import handlers
+from loader import dp, bot, config
+from services import notify_admin, set_default_commands
+
+logger = logging.getLogger(__name__)
 
 
 async def on_startup():
-    logging.basicConfig(
-        format=u'%(filename)s:%(lineno)-d #%(levelname)-16s [%(asctime)s] %(message)s',
-        level=logging.INFO
-    )
-    # middlewares
-    logging.info('Setting up middlewares...')
-    #dp.setup_middleware(#MiddleWareName)
+    logger.info('Setting up middlewares...')
+    dp.setup_middleware(LoggingMiddleware())
 
-    logging.info('Everything is ready to launch!')
-    # Set default commands (/start and /help)
+    logger.info('Setting default commands...')
     await set_default_commands(dp)
 
-    # Notify admin that the bot has started
-    await on_startup_notify(dp)
+    await notify_admin(dp, config.bot.admin)
     await dp.skip_updates()
     await dp.start_polling()
 
 
 async def on_shutdown():
-    logging.info('Shutting down...')
+    logger.info('Shutting down...')
     await dp.storage.close()
     await dp.storage.wait_closed()
     bot_session = await bot.get_session()

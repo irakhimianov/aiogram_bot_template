@@ -1,3 +1,3 @@
 # Aiogram bot template
-This is simple telegram bot template with aiogram library.
-Feel free to give me some tips about it
+This is simple aiogram's telegram bot template.
+Feel free to share.

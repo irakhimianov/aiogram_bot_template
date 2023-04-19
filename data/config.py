@@ -1,10 +1,40 @@
 import os
+from dataclasses import dataclass
 
-# Put bot token to env variables as BOT_TOKEN
-TOKEN = os.getenv("BOT_TOKEN")
+from dotenv import load_dotenv
 
-# Put admin id to env variables as ADMIN_ID
-ADMIN = os.getenv("ADMIN_ID")
 
-# Admins telegram id
-ADMINS = []
+@dataclass
+class Bot:
+    token: str
+    admin: int
+
+
+@dataclass
+class Redis:
+    host: str
+    port: int
+    db: int
+
+
+@dataclass
+class Config:
+    bot: Bot
+    redis: Redis
+
+
+def load_config() -> Config:
+    load_dotenv()
+
+    return Config(
+        bot=Bot(
+            token=os.getenv('TOKEN', ''),
+            admin=int(os.getenv('ADMIN', '0'))
+        ),
+        redis=Redis(
+            host=os.getenv('REDIS_HOST', ''),
+            port=int(os.getenv('REDIS_PORT', '6379')),
+            db=int(os.getenv('REDIS_DB', '5')),
+        ),
+
+    )
